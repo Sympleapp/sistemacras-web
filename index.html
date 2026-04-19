@@ -8,15 +8,10 @@
     <meta name="description" content="Ecossistema tecnológico desenvolvido na Bahia para gestão da Proteção Social. Inteligência de dados, GIS e eficiência em custos.">
     
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sistemacras.com/">
-    <meta property="og:title" content="Sistema CRAS | Inteligência em Assistência Social">
-    <meta property="og:description" content="Ecossistema tecnológico para gestão da Proteção Social Básica. Inovação com inteligência de dados e geoprocessamento.">
-
-    <meta property="og:image" content="https://sistemacras.com/img/logo.jpg">
-    <meta property="og:image:secure_url" content="https://sistemacras.com/img/logo.jpg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://sistemacras.com.br/">
+    <meta property="og:title" content="Sistema CRAS | Inovação no SUAS">
+    <meta property="og:description" content="A revolução da Proteção Social através da Inteligência de Dados e Geoprocessamento. Conheça a plataforma premiada com o Selo SUAS de Inovação.">
+    <meta property="og:image" content="https://sistemacras.com.br/img/logo.jpg">
 
     <link rel="icon" href="img/logo.jpg" type="image/jpeg">
     
@@ -102,6 +97,8 @@
 
         .logo img { height: 60px; transition: transform 0.3s ease; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
         .logo img:hover { transform: scale(1.05); }
+
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--primary); cursor: pointer; transition: 0.3s; }
 
         .nav-links { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.5px; position: relative; transition: color 0.3s; }
@@ -189,7 +186,8 @@
         .contact-card:hover { transform: translateY(-5px); }
         .contact-card i { font-size: 2.5rem; color: var(--secondary); margin-bottom: 1rem; }
         .contact-card h4 { color: var(--primary); font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .contact-card p { color: #555; font-weight: 500; font-size: 1.1rem; }
+        /* Ajuste para quebrar o email no mobile sem ultrapassar a caixa */
+        .contact-card p { color: #555; font-weight: 500; font-size: 1.1rem; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; }
 
         /* WhatsApp */
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; border-radius: 50%; text-align: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; animation: pulse-green 2s infinite; }
@@ -200,8 +198,42 @@
         footer { background: var(--dark); color: white; padding: 4rem 2rem; text-align: center; margin-top: 2rem; }
         .footer-info { opacity: 0.7; font-size: 0.9rem; margin-top: 1rem; }
 
-        @media (max-width: 900px) { .award-content { flex-direction: column; gap: 2rem; text-align: center; } .award-text h3 { justify-content: center; } }
-        @media (max-width: 768px) { .hero h1 { font-size: 2.2rem; } .nav-links { display: none; } .img-stage { height: 350px; } .award-section { padding: 2rem; } .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; } }
+        /* --- RESPONSIVIDADE (MOBILE E TABLETS) --- */
+        @media (max-width: 900px) { 
+            .award-content { flex-direction: column; gap: 2rem; text-align: center; } 
+            .award-text h3 { justify-content: center; } 
+        }
+        
+        @media (max-width: 768px) { 
+            .hero h1 { font-size: 2.2rem; } 
+            
+            /* Ajuste do Menu Hambúrguer */
+            .menu-toggle { display: block; }
+            .nav-links { 
+                display: none; 
+                position: absolute; 
+                top: 100%; 
+                left: 0; 
+                width: 100%; 
+                background: #ffffff; 
+                flex-direction: column; 
+                padding: 1.5rem 0; 
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1); 
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { display: inline-block; padding: 0.5rem 1rem; }
+
+            .img-stage { height: 350px; } 
+            .award-section { padding: 2rem; } 
+            
+            /* Ajuste das Imagens do Selo para não esmagarem */
+            .award-images { flex-direction: column; align-items: center; gap: 2rem; }
+            .award-images img { max-width: 250px; width: 100%; }
+            
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; } 
+        }
     </style>
 </head>
 <body>
@@ -217,7 +249,12 @@
             <div class="logo">
                 <img src="img/logo.jpg" alt="Sistema CRAS Logo">
             </div>
-            <ul class="nav-links">
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#conquistas">Reconhecimento</a></li>
                 <li><a href="#funcionalidades">Tecnologia</a></li>
@@ -506,6 +543,31 @@
                     question.classList.add('active');
                     answer.style.maxHeight = answer.scrollHeight + "px";
                 }
+            });
+        });
+
+        // --- LÓGICA DO MENU MOBILE ---
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const navLinksMenu = document.getElementById('nav-links');
+        const menuIcon = mobileMenuBtn.querySelector('i');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinksMenu.classList.toggle('active');
+            if(navLinksMenu.classList.contains('active')){
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Fechar o menu ao clicar num link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksMenu.classList.remove('active');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
             });
         });
     </script>
